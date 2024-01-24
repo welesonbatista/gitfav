@@ -18,7 +18,7 @@
 body {
   font-size: 1.6rem;
   color: var(--text-color);
-  background-color: #1D1D1D;
+  background-color: #000;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -49,7 +49,7 @@ header {
   align-items: center;
   justify-content: space-between;
 
-  margin: 2.5rem 0;
+  margin: 8.7rem 0;
 }
 
 header h1 {
@@ -207,4 +207,32 @@ tbody tr {
   display: table;
   width: 100%;
   table-layout: fixed;
+}
+
+.noBody {
+  display: flex;
+  height: 52.2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+tbody tr.noBody td {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 4rem;
+  padding: 0;
+  gap: 6rem;
+  width: min(112rem, 90%)
+}
+
+.noBody td p {
+  font-family: 'Roboto Mono', monospace;
+  color: #4E5455;
+  font-family: "Roboto Mono";
+  font-size: 4rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24.781px;
 }

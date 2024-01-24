@@ -1,7 +1,5 @@
 import { GithubUser } from "./GithubUser.js"
 
-// classe que vai conter a lógica dos dados
-// como os dados serão estruturados
 export class Favorites {
   constructor(root) {
     this.root = document.querySelector(root)
@@ -21,22 +19,22 @@ export class Favorites {
 
       const userExists = this.entries.find(entry => entry.login === username)
 
-      if(userExists) {
-        throw new Error('Usuário já cadastrado')
+      if (userExists) {
+        throw new Error('Already registered user!')
       }
 
 
       const user = await GithubUser.search(username)
 
-      if(user.login === undefined) {
-        throw new Error('Usuário não encontrado!')
+      if (user.login === undefined) {
+        throw new Error('Already registered user!')
       }
 
       this.entries = [user, ...this.entries]
       this.update()
       this.save()
 
-    } catch(error) {
+    } catch (error) {
       alert(error.message)
     }
   }
@@ -51,7 +49,6 @@ export class Favorites {
   }
 }
 
-// classe que vai criar a visualização e eventos do HTML
 export class FavoritesView extends Favorites {
   constructor(root) {
     super(root)
@@ -74,7 +71,11 @@ export class FavoritesView extends Favorites {
   update() {
     this.removeAllTr()
 
-    this.entries.forEach( user => {
+    if (this.entries.length == 0) {
+      this.tbody.append(this.creatEmptyRow())
+    }
+
+    this.entries.forEach(user => {
       const row = this.createRow()
 
       row.querySelector('.user img').src = `https://github.com/${user.login}.png`
@@ -87,7 +88,7 @@ export class FavoritesView extends Favorites {
 
       row.querySelector('.remove').onclick = () => {
         const isOk = confirm('Tem certeza que deseja deletar essa linha?')
-        if(isOk) {
+        if (isOk) {
           this.delete(user)
         }
       }
@@ -101,10 +102,10 @@ export class FavoritesView extends Favorites {
 
     tr.innerHTML = `
       <td class="user">
-        <img src="https://github.com/maykbrito.png" alt="Imagem de maykbrito">
-        <a href="https://github.com/maykbrito" target="_blank">
-          <p>Mayk Brito</p>
-          <span>maykbrito</span>
+        <img src="https://github.com/welesonbatista.png" alt="Imagem de weleson">
+        <a href="https://github.com/welesonbatista" target="_blank">
+          <p>Weleson Batista</p>
+          <span>welesonbatista</span>
         </a>
       </td>
       <td class="repositories">
@@ -117,7 +118,20 @@ export class FavoritesView extends Favorites {
         <button class="remove">Unfollow</button>
       </td>
     `
+    return tr
+  }
+  creatEmptyRow() {
+    const tr = document.createElement('tr')
+    tr.classList.add('noBody')
 
+    tr.innerHTML = `
+        <tr class="noBody">
+            <td>
+                <img src="./assets/star-zero.svg" alt="logo">
+                <p>No favorites yet</p>
+            </td>
+        </tr>
+    `
     return tr
   }
 
@@ -125,6 +139,6 @@ export class FavoritesView extends Favorites {
     this.tbody.querySelectorAll('tr')
       .forEach((tr) => {
         tr.remove()
-      })  
+      })
   }
 }
